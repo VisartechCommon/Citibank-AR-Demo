@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Web AR Example</title>
+    <script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/2.2.2/aframe/build/aframe-ar.js"></script>
+
+    <script>
+        if (window.Android) {
+            window.Android.requestCameraPermission();
+        }
+    </script>
+
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; patternRatio: 0.9;">
+    <a-marker preset='custom' type="pattern" url="pattern-qr-code.patt">
+        <a-entity
+                gltf-model="model/citi_logo_model.gltf"
+                scale="0.04 0.04 0.04"
+                position="0 0 0"
+                rotation="0 90 0"
+        ></a-entity>
+    </a-marker>
+
+    <a-entity camera="fov: 60;"></a-entity>
+</a-scene>
+
+<div id="popup" class="popup">
+    <p>Special demo for Citi made by Visartech with love!</p>
+</div>
+<script>
+    var popup = document.getElementById('popup');
+    document.querySelector('a-marker').addEventListener('markerFound', function () {
+        popup.style.display = 'block';
+    });
+</script>
+</body>
+</html>
